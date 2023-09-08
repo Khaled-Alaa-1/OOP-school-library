@@ -1,4 +1,4 @@
-# <a name="readme-top"></a>
+<a name="readme-top"></a>
 
 # 📗 Table of Contents
 
@@ -18,9 +18,9 @@
 - [📝 License](#license)
 
 
-# 📖 Creating an enumerable module <a name="about-project"></a>
+# 📖 School Library <a name="about-project"></a>
 
-**Creating an enumerable module** is a project to learn about using a module inside a class.
+**School Library** is a Ruby project that simulates the library of a school with teachers, students, what books are and who borrows them.
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
@@ -34,7 +34,9 @@
 
 ### Key Features <a name="key-features"></a>
 
-- **The user will be able to create its own variables**
+- **The user could add new students or teachers**
+- **The user could add new books**
+- **The user could add save records of who borrowed a given book and when**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -68,8 +70,8 @@ Clone this repository to your desired folder:
 
 ```sh
   cd my-folder
-  git clone git@github.com:francksefu/Enumerable.git
-  cd decode-morse-code
+  git clone git@github.com:danifromecuador/school_library.git
+  cd school_library
 ```
 
 
@@ -78,7 +80,7 @@ Clone this repository to your desired folder:
 To run the project, execute the following command:
 
 ```sh
-ruby main.rb
+  ruby school_library
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -92,13 +94,14 @@ ruby main.rb
 - Twitter: [@Khaled86756991](https://twitter.com/Khaled86756991)
 - LinkedIn: [Khaled Alaa](https://www.linkedin.com/in/khaled-alaa-594bb9256/)
 
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## 🔭 Future Features <a name="future-features"></a>
 
 
-- **The MyEnumerable Class will have the following methods: #max, #min, #sort**
+- **The school library will use a graphic interface**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -107,14 +110,14 @@ ruby main.rb
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/francksefu/Enumerable/issues).
+Feel free to check the [issues page](https://github.com/Khaled-Alaa-1/OOP-school-library/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## ⭐️ Show your support <a name="support"></a>
 
-If you like this project give me an star on [my GitHub repo](https://github.com/francksefu/Enumerable)
+If you like this project give me an star on [my GitHub repo](https://github.com/Khaled-Alaa-1/OOP-school-library)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
