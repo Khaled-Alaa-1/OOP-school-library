@@ -8,8 +8,7 @@ class Book
   end
 
   def add_rental(person, date)
-    rental = Rental.new(date, self, person)
-    @rentals << rental
-    person.link_rental(rental)
+    rental = Rental.new(date, person, self)
+    @rentals.push(rental) unless @rentals.include?(rental)
   end
 end
