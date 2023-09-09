@@ -5,7 +5,7 @@ class Nameable
 end
 
 class Person < Nameable
-  attr_accessor :name, :age
+  attr_accessor :name, :age, :rentals
   attr_reader :id
 
   def initialize(age, parent_permission: true, name: 'Unknown')
@@ -14,6 +14,7 @@ class Person < Nameable
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @rentals = [] # Initialize rentals as an empty array
   end
 
   def correct_name
@@ -22,6 +23,11 @@ class Person < Nameable
 
   def can_use_services?
     of_age? || @parent_permission
+  end
+
+  def add_rental(book, date)
+    rental = Rental.new(date, self, book)
+    @rentals.push(rental) unless @rentals.include?(rental)
   end
 
   private
