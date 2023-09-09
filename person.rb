@@ -25,8 +25,9 @@ class Person < Nameable
     of_age? || @parent_permission
   end
 
-  def link_rental(rental)
-    @rentals << rental
+  def add_rental(book, date)
+    rental = Rental.new(date, self, book)
+    @rentals.push(rental) unless @rentals.include?(rental)
   end
 
   private
