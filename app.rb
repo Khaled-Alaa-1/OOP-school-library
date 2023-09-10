@@ -1,131 +1,97 @@
-require_relative 'person'
 require_relative 'student'
 require_relative 'teacher'
-require_relative 'classroom'
 require_relative 'book'
 require_relative 'rental'
 
-# Initialize arrays to keep track of all book and person instances
-books = []
-people = []
-
-def list_all_books(books)
-  puts "\nList of all books:"
-  books.each do |book|
-    puts "#{book.title} by #{book.author}"
+def list_all_books
+  Book.all.each do |book|
+    p "[Book] Title: #{book.title}, Author: #{book.author}"
   end
 end
 
-def list_all_people(people)
-  puts "\nList of all people:"
-  people.each do |person|
-    puts "#{person.name} (#{person.class.name}) - ID: #{person.id}"
+def all_people_list
+  people = []
+  people.concat(Student.all)
+  people.concat(Teacher.all)
+  people
+end
+
+def list_all_people
+  all_people = all_people_list
+  all_people.each do |person|
+    if person.instance_of?(Student)
+      p "[Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    else
+      p "[Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
   end
 end
 
-def create_person(people)
-  puts "\nCreate a person:"
-  puts 'Is it a teacher or a student? (T/S)'
-  role = gets.chomp.downcase
+def create_a_person
+  puts 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
+  user_input = gets.chomp.to_i
+  return unless [1, 2].include?(user_input)
 
-  if role == 't'
-    puts "Enter the teacher's age:"
-    age = gets.chomp.to_i
-    puts "Enter the teacher's name:"
-    name = gets.chomp
-    puts "Enter the teacher's specialization:"
+  print 'Age: '
+  age = gets.chomp.to_i
+  print 'Name: '
+  name = gets.chomp
+  if user_input == 1
+    print 'Has parent permission? (y/n): '
+    has_permission = gets.chomp
+    permission = has_permission == 'y'
+    classroom = 'unknown'
+    Student.new(age, name, classroom, permission)
+  elsif user_input == 2
+    print 'Specialization: '
     specialization = gets.chomp
-    person = Teacher.new(age, specialization, name: name)
-  elsif role == 's'
-    puts "Enter the student's age:"
-    age = gets.chomp.to_i
-    puts "Enter the student's name:"
-    name = gets.chomp
-    puts "Enter the student's classroom label:"
-    classroom_label = gets.chomp
-    classroom = Classroom.new(classroom_label)
-    person = Student.new(age, classroom, name: name)
-  else
-    puts 'Invalid role. Please try again.'
-    return
+    Teacher.new(age, specialization, true, name)
   end
-
-  people << person # Store the newly created person instance in the 'people' array
-
-  puts 'Person successfully created!'
-  puts "ID: #{person.id}, Name: #{person.name}, Role: #{person.class.name}"
+  puts 'Person created successfully!'
 end
 
-def create_book(books)
-  puts "\nCreate a book:"
-  puts "Enter the book's title:"
+def create_a_book
+  print 'Title: '
   title = gets.chomp
-
-  puts "Enter the book's author:"
+  print 'Author: '
   author = gets.chomp
-
-  book = Book.new(title, author)
-
-  books << book
-
-  puts 'Book successfully created!'
-  puts "Title: #{book.title}, Author: #{book.author}"
+  Book.new(title, author)
+  p 'Book created sucessfully!'
 end
 
-def create_rental(books, people)
-  puts "\nCreate a rental:"
-  puts "\nList of all books:"
-  books.each_with_index do |book, index|
-    puts "#{index + 1}. #{book.title} by #{book.author}"
+def create_a_rental
+  all_people = all_people_list
+  puts 'Select a book from the following list by number'
+  Book.all.each_with_index do |book, index|
+    puts "#{index}) Title: #{book.title}, Author: #{book.author}"
   end
-
-  puts "Enter the person's ID:"
-  person_id = gets.chomp.to_i
-
-  person = people.find { |p| p.id == person_id }
-
-  if person.nil?
-    puts "Person with ID #{person_id} not found."
-    return
+  book_index = gets.chomp.to_i
+  puts 'Select a person from the following list by number (not id)'
+  all_people.each_with_index do |person, index|
+    puts "#{index}) Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
   end
-
-  puts 'Enter the number of the book you want to rent:'
-  book_number = gets.chomp.to_i
-
-  if book_number < 1 || book_number > books.length
-    puts 'Invalid book number. Please try again.'
-    return
-  end
-
-  book = books[book_number - 1]
-
-  puts 'Enter the rental date (YYYY-MM-DD):'
+  person_index = gets.chomp.to_i
+  print 'Date: '
   date = gets.chomp
+  selected_person = all_people[person_index]
+  selected_book = Book.all[book_index]
+  return unless selected_person && selected_book
 
-  rental = Rental.new(date, book, person)
-  book.rentals << rental
-  person.rentals << rental
-
-  puts 'Rental successfully created!'
+  Rental.new(date, selected_person, selected_book)
+  puts 'Rental created successfully!'
 end
 
-def list_rentals_for_person(people)
-  puts "\nList rentals for a person:"
-  puts "Enter the person's ID:"
+def rental_person_id
+  all_people = all_people_list
+  puts 'ID of person: '
   person_id = gets.chomp.to_i
-
-  person = people.find { |p| p.id == person_id }
-
-  if person.nil?
-    puts "Person with ID #{person_id} not found."
-    return
-  end
-
-  puts "Rentals for #{person.name}:"
-  person.rentals.each do |rental|
-    puts "Date: #{rental.date}, Book: #{rental.book.title}, Author: #{rental.book.author}"
+  person = all_people.find { |p| p.id == person_id }
+  if person
+    puts 'Rentals: '
+    person.rentals.each do |rental|
+      puts "Date: #{rental.date}, Book: #{rental.book.title} by #{rental.book.author}"
+    end
+  else
+    puts 'Person not found'
   end
 end
-
-# Run the main  console app
-main(books, people)

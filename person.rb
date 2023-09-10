@@ -1,38 +1,37 @@
-class Nameable
-  def correct_name
-    raise NotImplementedError, "#{self.class} must implement the correct_name method"
-  end
-end
+require_relative 'nameable'
+require_relative 'capitalize_decorator'
+require_relative 'trimmer_decorator'
+require_relative 'rental'
+require_relative 'book'
 
-class Person < Nameable
-  attr_accessor :name, :age, :rentals
+class Person
   attr_reader :id
+  attr_accessor :name, :age, :rentals
 
-  def initialize(age, parent_permission: true, name: 'Unknown')
-    super()
-    @id = rand(1..1000)
+  def initialize(age, name, permission)
+    @id = rand(1000)
     @name = name
     @age = age
-    @parent_permission = parent_permission
-    @rentals = [] # Initialize rentals as an empty array
-  end
-
-  def correct_name
-    @name
+    @permission = permission
+    @nameable = Nameable.new
+    @rentals = []
   end
 
   def can_use_services?
-    of_age? || @parent_permission
+    of_age? || @permission
   end
 
-  def add_rental(book, date)
-    rental = Rental.new(date, self, book)
+  def correct_name
+    name
+  end
+
+  def add_rental(rental)
     @rentals.push(rental) unless @rentals.include?(rental)
   end
 
   private
 
   def of_age?
-    @age >= 18
+    age >= 18
   end
 end
