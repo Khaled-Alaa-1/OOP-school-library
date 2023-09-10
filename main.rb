@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 require_relative 'app'
 
 # Define the main entry point for the console app
